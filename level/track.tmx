@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="96" tileheight="96">
+ <tileset firstgid="1" name="track" tilewidth="96" tileheight="96">
+  <image source="track.png" width="768" height="384"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJy1VWtPwzAQC7BuhUEjGI/y3v//lbtKtWZcJ9km8cFqmqSxz3fX9CmlnjDOz/2M/h9xLsdI43VgFdjIHswDD4EXen8KfJixnjOhm/V1Zj6fEMeNvA+Bu8A18dU4al68Bt4CW+ON8ivHmJb62Ddo+wn8mjgY2wKHrmtMtX3QA69yg+O54Pkwx/MYeDfjnJbxDIW1r4rWc2u3BOZo5f9SMAdi3aRjDTtoT8FD1An2OQ7lmvrxm4DedLmYsCtw3Ke/fcDfuBicJuTks8CBWkIfoC67gmeOo5VPV/fwwuVHOTj+TubG5LmdliEt/5X6H+Bvec6diby5/LS0lLzSeeRNtWi/dWb+VI6rinaXMz3L3S3wBlpuzXkrQS6sZzlTvdG4WvHXcsB9wvXpNPI637Nuv6vhfarra0H1uxoGx1py1KpZjQ/3FJ4cG3vF/riavRQHaGYbYw==
+  </data>
+ </layer>
+</map>
