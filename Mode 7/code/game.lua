@@ -17,7 +17,7 @@ local enterFrame
 local controls, touches
 local gameFrame = 0
 
-local pixelSize = 4
+local pixelSize = 1
 local snapshotWidth, snapshotHeight
 local playerX, playerY, playerAngle, playerVelocity = -1000, -720, 90, 0
 
@@ -43,38 +43,40 @@ function setUp( sceneGroup )
 	groundGroup = setUpLevel( sceneGroup )
 
 	-- Set up the snapshot
-	display.setDefault( "magTextureFilter", "linear" )
-	display.setDefault( "minTextureFilter", "linear" )
+	display.setDefault( "magTextureFilter", "nearest" )
+	display.setDefault( "minTextureFilter", "nearest" )
 	snapshotWidth  = screenWidth * 2 / pixelSize
 	snapshotHeight = screenHeight * 2 / pixelSize
 	snapshot       = display.newSnapshot( snapshotWidth, snapshotHeight )
-	
-	snapshot.group.xScale = pixelSize
-	snapshot.group.yScale = pixelSize
+
+	snapshot.group.xScale = 1 / pixelSize
+	snapshot.group.yScale = 1 / pixelSize
 	snapshot.anchorX      = 0
 	snapshot.anchorY      = 0
-	
 	sceneGroup:insert( snapshot )
-	snapshot.x     = 0--screenWidth / 2
-	snapshot.y     = 0
-	snapshotGroup  = snapshot.group
+	snapshotGroup         = snapshot.group
 	snapshotGroup:insert( groundGroup )
 
 	-- Set up the snapshot in 3D
-	local border = 10
-	local path   = snapshot.path
+	local horizon   = screenHeight * 0.4
+	local nearScale = 4
+	local path      = snapshot.path
 	
-	path.x1 = border
-	path.y1 = border--__G.screenHeight - snapshotHeight
+	-- Top left point
+	path.x1 = 0
+	path.y1 = horizon
+	
+	-- Bottom left point - moved left by the nearScale to increase the perspective effect
+	path.x2 = -screenWidth * ( nearScale - 1 )
+	path.y2 = screenHeight - snapshotHeight
 
-	path.x2 = border -- -screenWidth * 4
-	path.y2 = screenHeight - snapshotHeight - border -- __G.screenHeight - snapshotHeight
+	-- Bottom right point - moved right by the nearScale to increase the perspective effect
+	path.x3 = screenWidth + screenWidth * ( nearScale - 1 ) - snapshotWidth
+	path.y3 = screenHeight - snapshotHeight
 
-	path.x3 = screenWidth - snapshotWidth - border -- screenWidth * 4
-	path.y3 = screenHeight - snapshotHeight - border -- __G.screenHeight - snapshotHeight
-
-	path.x4 = screenWidth - snapshotWidth - border -- screenWidth / -2
-	path.y4 = border -- __G.screenHeight - snapshotHeight
+	-- Top right point
+	path.x4 = screenWidth - snapshotWidth
+	path.y4 = horizon
 
 	-- Create the UI
 	setUpUi( sceneGroup )
@@ -151,7 +153,7 @@ function setUpTileset()
 
 	-- Create image sheet
 	display.setDefault( "magTextureFilter", "nearest" )
-	display.setDefault( "minTextureFilter", "nearest" )
+	display.setDefault( "minTextureFilter", "linear" )
 	local options = {
 		width     = tileSize,
 		height    = tileSize,
@@ -237,8 +239,8 @@ function enterFrame()
 	groundGroup.x          = playerX
 	groundGroup.y          = playerY
 	snapshotGroup.rotation = -playerAngle
-	snapshotGroup.y        = __G.screenHeight * 0.9
-	
+	snapshotGroup.y        = __G.screenHeight * 0.9 / pixelSize
+
 	-- Update the snapshot
 	snapshot:invalidate()
 	
